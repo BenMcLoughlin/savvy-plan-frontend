@@ -4,6 +4,7 @@ import * as components from "components"
 import { AddPrompt, InfoCard, SideNav, TripleSelector } from "components"
 import { matchThenShowComponent } from "services/display_functions"
 import * as I from "types"
+import * as charts from "charts"
 
 interface IProps {
   set: I.set
@@ -15,7 +16,7 @@ interface IProps {
 export const Display: FC<IProps> = ({ data, remove, set, state }) => {
   const { selectedId } = state.ui_reducer
 
-  const { addPrompt, editPanel, infoCards, sideNav, tripleSelector } = data
+  const { addPrompt,  chart, editPanel, infoCards, sideNav, tripleSelector } = data
 
   return (
     <Wrapper>
@@ -24,6 +25,7 @@ export const Display: FC<IProps> = ({ data, remove, set, state }) => {
         <SideNav {...sideNav} />
       </Nav>
       <Content>
+      <Chart>{matchThenShowComponent(charts, data, chart)}</Chart>
         <InfoCards>
           {infoCards.map(d => (
             <InfoCard key={d.label} label={d.label} array={d.array} />
@@ -106,4 +108,9 @@ const Nav = styled.div`
   left: 3rem;
   width: 30rem;
   height: 70rem;
+`
+const Chart = styled.div`
+  grid-area: a;
+  display: flex;
+  position: relative;
 `
